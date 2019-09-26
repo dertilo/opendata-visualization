@@ -19,3 +19,9 @@ parse [Homicidios2017 2018FINAL.pdf](https://www.queremosdatos.co/request/418/re
 
 get department-borders (geo-coding) from [nominatim](https://nominatim.org/release-docs/develop/api/Search/) and visualize with [folium](https://github.com/python-visualization/folium.git)
 ![departments](images/departments.png)
+
+
+## 3. mark locations of assassinations
+geo-coding of cities via [nominatim](https://nominatim.org/release-docs/develop/api/Search/) geojsons are written to [municipios.json](municipios.json)
+each assassination gets a marker with pop containing information from [Homicidios2017 2018FINAL.pdf](https://www.queremosdatos.co/request/418/response/856/attach/6/Homicidios2017%202018FINAL.pdf)
+![assassinations](images/killed_social_leaders.png)
