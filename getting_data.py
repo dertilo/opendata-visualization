@@ -1,5 +1,6 @@
 import json
 import os
+import pandas
 import camelot
 import re
 
@@ -52,3 +53,5 @@ def get_data(
 if __name__ == '__main__':
     pdf_url = 'https://www.queremosdatos.co/request/418/response/856/attach/6/Homicidios2017%202018FINAL.pdf'
     data = get_data(get_pdf_file(pdf_url=pdf_url))
+    df = pandas.DataFrame(data=data)
+    print(df[['Municipio','Apellidos','Fecha']][:3])
