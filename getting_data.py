@@ -14,7 +14,7 @@ def write_jsonl(file, data):
         strings = (json.dumps(d, ensure_ascii=False) + '\n' for d in data)
         f.writelines((s.encode('utf-8') for s in strings))
 
-def corret_table_parsing_erros(datum):
+def correct_table_parsing_errors(datum):
     county, city = datum['Departamento'],datum['Municipio']
     if not city.capitalize() == city:
         l = re.compile("[A-Z]").split(city)
@@ -38,7 +38,7 @@ def parse_table_in_pdf(pdf_file):
     data = [row for table in tables for row in table.data[1:]]
     header = data.pop(0)
     data = [{k: v.replace('\n','') if isinstance(v,str) else v for k, v in zip(header, datum)} for datum in data]
-    [corret_table_parsing_erros(c) for c in data]
+    [correct_table_parsing_errors(c) for c in data]
     return data
 
 def get_data(
