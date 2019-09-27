@@ -31,7 +31,8 @@ if __name__ == '__main__':
     geo_searches = [{'country': 'Colombia', 'state':dep} for dep in departments]
     print('got %d regions'%len(geo_searches))
 
-    geo_json_data = get_geojson_data(geo_searches,polygon_geojson=1,geometry_type='Polygon',jsonl='departments.json')
+    geo_json_data = get_geojson_data(geo_searches, polygon_geojson=1, geometry_type='Polygon',
+                                     geojson_file='departments.json')
 
     for feat in geo_json_data['features']:
         feat['properties'][dep_name] = feat['properties']['geocoding']['name']

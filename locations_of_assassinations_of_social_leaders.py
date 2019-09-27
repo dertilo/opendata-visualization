@@ -45,5 +45,6 @@ if __name__ == '__main__':
     data = get_data()
     geo_searches = [{'country':'Colombia','state':d['Departamento'],'city':d['Municipio']} for d in data]
     geo_searches = unique_dicts(geo_searches)
-    geo_json_data = get_geojson_data(geo_searches,polygon_geojson=0,geometry_type='Point',jsonl='municipios.json')
+    geo_json_data = get_geojson_data(geo_searches, polygon_geojson=0, geometry_type='Point',
+                                     geojson_file='municipios.json')
     app.run(debug=True)
