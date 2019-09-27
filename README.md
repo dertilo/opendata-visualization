@@ -2,7 +2,11 @@
 data taken from [https://www.queremosdatos.co/](https://www.queremosdatos.co/)  
 
 see [request for number of killed sociel leaders](https://www.queremosdatos.co/request/numero_de_lideres_sociales_muert)
-
+### setup
+    conda create -n opendatavis python=3.7
+    source activate opendatavis
+    pip install -r requirements.txt
+    
 ## 1. pdf parsing
 parse [Homicidios2017 2018FINAL.pdf](https://www.queremosdatos.co/request/418/response/856/attach/6/Homicidios2017%202018FINAL.pdf) with [camelot](https://github.com/atlanhq/camelot.git) receive [data.jsonl](data.jsonl)
 
@@ -23,5 +27,10 @@ get department-borders (geo-coding) from [nominatim](https://nominatim.org/relea
 
 ## 3. mark locations of assassinations
 geo-coding of cities via [nominatim](https://nominatim.org/release-docs/develop/api/Search/) geojsons are written to [municipios.json](municipios.json)
-each assassination gets a marker with pop containing information from [Homicidios2017 2018FINAL.pdf](https://www.queremosdatos.co/request/418/response/856/attach/6/Homicidios2017%202018FINAL.pdf)
+each assassination gets a marker with pop containing information from [Homicidios2017 2018FINAL.pdf](https://www.queremosdatos.co/request/418/response/856/attach/6/Homicidios2017%202018FINAL.pdf)  
+marker locations are NOT exact!
 ![assassinations](images/killed_social_leaders.png)
+
+## 4. color departments by number of killed
+
+![locationsa_and_colored](images/locations_and_colored_states.png)
