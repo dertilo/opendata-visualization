@@ -1,6 +1,7 @@
 import json
 import os
 
+import geopandas
 import requests
 
 def get_geo(search,**kwargs):
@@ -20,22 +21,27 @@ def get_geo(search,**kwargs):
             feat['properties']['search_dict'] = search
     return geo_json
 
-def get_geojson_data(geo_searches,polygon_geojson=0,geometry_type='Point', jsonl ='some_file.json'):
+def get_geojson_data(geo_searches, polygon_geojson=0, geometry_type='Point', geojson_file ='some_file.json'):
 
     def first_feat_of_type(feats):
         feats = [f for f in feats if geometry_type in f['geometry']['type']]
         return [feats[0]] if len(feats)>0 else []
 
-    if not os.path.isfile(jsonl):
+    if not os.path.isfile(geojson_file):
         geo_json_data = [
             get_geo(search=search, polygon_geojson=polygon_geojson, format='geocodejson') for search in geo_searches]
         features = [f for geo in geo_json_data for f in first_feat_of_type(geo['features'])]
         geo_json_data = {'type': 'FeatureCollection', 'features': features}
 
-        with open(jsonl, 'wb') as f:
+        with open(geojson_file, 'wb') as f:
             f.write(json.dumps(geo_json_data,ensure_ascii=False).encode('utf-8'))
-    else:
-        with open(jsonl, 'rb') as f:
-            geo_json_data = json.loads(f.read().decode('utf-8'))
 
+    geo_json_data = simplify_polygons_with_geopandas(geojson_file)
+
+    return geo_json_data
+
+def simplify_polygons_with_geopandas(geojson_file,tolerance = 0.001):
+    gdf = geopandas.GeoDataFrame.from_file(geojson_file)
+    gdf['geometry'] = gdf['geometry'].simplify(tolerance, preserve_topology=True)
+    geo_json_data = json.loads(gdf.to_json())
     return geo_json_data
