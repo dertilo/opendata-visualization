@@ -6,6 +6,7 @@ from flask import Flask
 import folium
 
 from getting_data import get_data
+from locations_of_assassinations_of_social_leaders import unique_dicts
 
 app = Flask(__name__)
 
@@ -79,12 +80,13 @@ if __name__ == '__main__':
     geo_json_data = get_geojson_data(geo_searches, polygon_geojson=1, geometry_type='Polygon',
                                      geojson_file='departments.json')
 
-    geo_json_municipios_data = get_geojson_data(geo_searches=None, polygon_geojson=0, geometry_type='Point',
+    geo_searches = [{'country':'Colombia','state':d['Departamento'],'city':d['Municipio']} for d in data]
+    geo_searches = unique_dicts(geo_searches)
+    geo_json_municipios_data = get_geojson_data(geo_searches=geo_searches, polygon_geojson=0, geometry_type='Point',
                                                 geojson_file='municipios.json')
 
     for feat in geo_json_data['features']:
         feat['properties'][dep_name] = feat['properties']['geocoding']['name']
-        # feat['properties'][num_killings] = len([d for d in data if is_in_state_and_city(d,feat)])
         feat['properties'][num_killings] = len([d for d in data if d['Departamento']==feat['properties']['geocoding']['name']])
 
     app.run(debug=True)
